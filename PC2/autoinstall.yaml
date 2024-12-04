@@ -1,0 +1,34 @@
+  #cloud-config
+  autoinstall:
+    version: 1
+    identity:
+      hostname: PC2_ROUTER_1
+      username: pc2router1
+      password: "$6$5414c9a7daa7c0bb1850a6614605bac2$ca3625d00ea355cf12dec3f4ddcef95c1c4aab02db508d2c92b6406a431f598226ef464050c48bd7fef6995ebb1070e8cff2a12827dcf17fb128392d187f0bd3"
+    ssh:
+      install-server: true
+    storage:
+      layout:
+        name: direct
+    locale: es_ES.UTF-8   
+    keyboard:
+      layout: es         
+      variant: es
+    timezone: Europe/Madrid  
+    packages:
+      - htop
+      - curl
+      - vim
+      - nano
+      - openssh-server
+    network:
+      ethernets:
+        ens33:
+          dhcp4: true
+      version: 2
+    late-commands:
+      - "apt update && apt upgrade -y" 
+      - "systemctl enable ssh"        
+      - "systemctl start ssh"          
+      - "ufw allow OpenSSH"            
+      - "echo 'Instalación y configuración completadas en nombre_maquina' > /var/log/installation_complete.log"
